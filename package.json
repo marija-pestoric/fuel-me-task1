@@ -1,11 +1,11 @@
 {
   "name": "fuel-me-task1",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Upskilling - Month 1",
+  "main": "./dist/index.js",
   "type": "module",
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "start": "node ./dist/index.js",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,7 +14,7 @@
     "url": "git+https://github.com/marija-pestoric/fuel-me-task1.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Marija Pestoric",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/marija-pestoric/fuel-me-task1/issues"
