@@ -1,1 +1,2 @@
-console.log('Initial')
+import { User, Post, UserWithPosts} from './interfaces.js'
+
