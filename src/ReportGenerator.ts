@@ -7,13 +7,14 @@ export class ReportGenerator {
     private successLog = createLogger('Success')
     private errorLog = createLogger('Error')
     private doneLog = createLogger('Done')
-    
+    private printLog = createLogger('Printing')
+
     constructor(private readonly baseURL: string){}
 
     private async fetchAllData(): Promise<{users: User[], posts: Post[]}> {
         this.fetchLog('Fetching users and posts...');
-
         const [users, posts] = await Promise.all([fetchData<User[]>(`${this.baseURL}/users`), fetchData<Post[]>(`${this.baseURL}/posts`)]);
+        this.successLog('Successfully fetched users and posts')
         return { users, posts }
     }
 
@@ -27,10 +28,18 @@ export class ReportGenerator {
             return usersWithPosts;
     }
 
+    private logReport(userWithPosts: UserWithPosts[]): void {
+        this.printLog('Report started printing...')
+        for(const user of userWithPosts) {
+            this.printLog(`User #${user.id}: ${user.name} has ${user.posts?.length} posts in total:`)
+            user.posts.forEach((post, idx) => this.printLog(`#${idx+1}: ${post.title}`))
+        }
+    }
     async run(): Promise<UserWithPosts[]> {
           try {
             const { users, posts }= await this.fetchAllData();
             const processedData = this.processData(users, posts);
+            this.logReport(processedData)
             return processedData;
 
         } catch (error: unknown) {
@@ -38,7 +47,8 @@ export class ReportGenerator {
             this.errorLog(errorMessage);
             return []
         } finally {
-            this.doneLog('Fetching data finished')
+            this.doneLog('Report done executing')
         }
     }
+
 }
